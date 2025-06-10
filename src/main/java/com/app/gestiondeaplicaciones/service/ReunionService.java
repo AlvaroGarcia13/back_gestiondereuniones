@@ -1,6 +1,7 @@
 package com.app.gestiondeaplicaciones.service;
 
 import com.app.gestiondeaplicaciones.dto.ReunionDto;
+import com.app.gestiondeaplicaciones.dto.UsuarioDto;
 import com.app.gestiondeaplicaciones.entities.ReunionEntity;
 import com.app.gestiondeaplicaciones.entities.TematicaEntity;
 import com.app.gestiondeaplicaciones.entities.UsuarioEntity;
@@ -167,5 +168,19 @@ public class ReunionService {
         if (participanteRepository.existsById(participanteId)) {
             participanteRepository.deleteById(participanteId);
         }
+    }
+    public List<UsuarioDto> getParticipantesDeReunion(Integer reunionId) {
+        List<UsuarioDto> participantes = new ArrayList<>();
+        ReunionEntity reunion = reunionRepository.findById(reunionId)
+                .orElseThrow(() -> new RuntimeException("Reunión no encontrada"));
+        for (ParticipanteEntity p : reunion.getParticipaciones()) {
+            UsuarioEntity usuario = p.getUsuario();
+            UsuarioDto dto = new UsuarioDto();
+            dto.setId(usuario.getId());
+            dto.setName(usuario.getName());
+            dto.setEmail(usuario.getEmail());
+            participantes.add(dto);
+        }
+        return participantes;
     }
 }

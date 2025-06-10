@@ -1,6 +1,7 @@
 package com.app.gestiondeaplicaciones.controller;
 
 import com.app.gestiondeaplicaciones.dto.ReunionDto;
+import com.app.gestiondeaplicaciones.dto.UsuarioDto;
 import com.app.gestiondeaplicaciones.entities.ReunionEntity;
 import com.app.gestiondeaplicaciones.service.ReunionService;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,15 @@ public class ReunionController {
         ReunionDto updated = reunionService.updateReunion(id, reunionDto);
         return ResponseEntity.ok(updated);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<ReunionDto> getReunionById(@PathVariable Integer id) {
+        List<ReunionDto> reuniones = reunionService.getAllReunionesDto();
+        return reuniones.stream()
+                .filter(r -> r.getId().equals(id))
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @DeleteMapping("/{reunionId}/delete")
     public ResponseEntity<Void> borrarReunion(@PathVariable Integer reunionId) {
@@ -46,6 +56,11 @@ public class ReunionController {
     @GetMapping("/participante/usuario/{usuarioId}/reuniones")
     public List<ReunionDto> getReunionesByUsuario(@PathVariable Integer usuarioId) {
         return reunionService.getReunionesByUsuario(usuarioId);
+    }
+    @GetMapping("/{id}/participantes")
+    public ResponseEntity<List<UsuarioDto>> getParticipantes(@PathVariable Integer id) {
+        List<UsuarioDto> participantes = reunionService.getParticipantesDeReunion(id);
+        return ResponseEntity.ok(participantes);
     }
 
     @PostMapping("/{reunionId}/abandonar/{usuarioId}")
