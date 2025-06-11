@@ -65,7 +65,7 @@ public class ReunionService {
             dto.setCodigoAcceso(entity.getCodigoAcceso());
             dto.setMaxParticipantes(entity.getMaxParticipantes());
             dto.setCreadorId(entity.getCreador() != null ? entity.getCreador().getId() : null);
-            // Convierte temáticas a lista de IDs
+            //convierto las tematicas a una lista de ids
             List<Integer> tematicasIds = entity.getTematicas().stream()
                     .map(t -> t.getId())
                     .toList();
@@ -85,7 +85,7 @@ public class ReunionService {
         participanteId.setReunionId(reunionId);
         participanteId.setUsuarioId(userId);
 
-        // Evita duplicados
+        //prefviene que se produzcan duplicados
         if (participanteRepository.existsById(participanteId)) {
             return;
         }
@@ -124,7 +124,7 @@ public class ReunionService {
 
         ReunionEntity saved = reunionRepository.save(reunion);
 
-        // Convertir a DTO para la respuesta
+        // convierte a dto
         ReunionDto updatedDto = new ReunionDto();
         updatedDto.setId(saved.getId());
         updatedDto.setTitulo(saved.getTitulo());

@@ -21,12 +21,12 @@ public class UsuarioService {
         UsuarioEntity user = new UsuarioEntity();
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword())); // Encripta aquí
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         return userRepository.save(user);
     }
 
     public UsuarioEntity createUser(UsuarioEntity user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // Encripta aquí
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -49,7 +49,7 @@ public class UsuarioService {
         UsuarioEntity user = new UsuarioEntity();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password)); // Encripta aquí
+        user.setPassword(passwordEncoder.encode(password));
         return userRepository.save(user);
     }
 }
